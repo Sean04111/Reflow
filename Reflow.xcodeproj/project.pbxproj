@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		14EDFF4D2D7057120080B212 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 14EDFF4C2D7057090080B212 /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		14EDFEE32D7036830080B212 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		14EDFED12D7036820080B212 /* Reflow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Reflow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14EDFEE22D7036830080B212 /* ReflowTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReflowTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		14EDFEEC2D7036830080B212 /* ReflowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReflowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		14EDFF4C2D7057090080B212 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +80,7 @@
 		14EDFEC82D7036820080B212 = {
 			isa = PBXGroup;
 			children = (
+				14EDFF4C2D7057090080B212 /* .gitignore */,
 				14EDFED32D7036820080B212 /* Reflow */,
 				14EDFEE52D7036830080B212 /* ReflowTests */,
 				14EDFEEF2D7036830080B212 /* ReflowUITests */,
@@ -212,6 +218,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14EDFF4D2D7057120080B212 /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
