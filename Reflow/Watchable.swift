@@ -8,6 +8,7 @@
 import SwiftUI
 import AppKit
 import Foundation
+import Carbon
 
 // for those item has status to keep
 class MetaData {
@@ -17,11 +18,11 @@ class MetaData {
     
     private var persister : any Persister = File_Persistance()
   
-    init(data: String, item_name : String) {
+    init(data: String, key: String) {
         self.data = data
         self.version = MetaVersion()
         
-        self.key = item_name
+        self.key = key
     }
     
    
@@ -55,13 +56,15 @@ class MetaData {
 }
 
 protocol Watchable {
-    func Get_id()-> UUID
-    func Get_Status() -> WATCHITEM_STATUS
+    func GetId()-> String
+    func GetStatus() -> WATCHITEM_STATUS
+    func GetMeta() -> MetaData
+    func UpdateMeta(newMeta: MetaData) -> RESULT_TYPE
     func Start()-> RESULT_TYPE
     func End()-> RESULT_TYPE
 }
 
-class   WatchItem : Watchable{
+class WatchItem : Watchable{
     let item_name : String
     let id = UUID()
     let start_script : String
@@ -79,47 +82,52 @@ class   WatchItem : Watchable{
         self.status = WATCHITEM_STATUS.UNSTARTED
         
         //TODO: fix here
-        self.meta = MetaData(data: "",item_name: self.item_name)
+        self.meta = MetaData(data: "",key: self.id.uuidString)
     }
     
-    private func script_execute(script:String) -> (result:RESULT_TYPE,output:String) {
-        do {
-            //TODO: add parameters here
-            let scriptContent = try String(contentsOfFile: "./Scripts/"+script)
-            
-            let appleScript = NSAppleScript(source: scriptContent)
-            
-            let arguementList = [self.meta.Get_data()] as NSArray
-            
-            var error: NSDictionary?
+    private func execute_script(bin:String,script: String,args:[String]) -> (result: RESULT_TYPE, output: String?) {
         
-            if let result = appleScript?.executeAndReturnError(&error){
-                // check if the item has metadata (e.g. chrome's url)
-                if let outputString = result.stringValue{
-                    return (RESULT_OK, outputString)
-                }
-                // no metadata
-                return (RESULT_OK,"")
-            }else{
-                if let errorInfo = error{
-                    return (RESULT_SCRIPT_EXECUTE_ERROR + errorInfo.description,"")
-                }else{
-                    return (RESULT_UNKNOWN,"")
-                }
-                
-            }
-        }catch{
-            return (RESULT_SCRIPT_NOT_FOUND,"")
+        //TODO: componentialize the config part
+        let scriptPath = "/Users/sean/Workspace/swiftjob/Reflow/Reflow/Scripts/" + script
+        let task = Process()
+        
+        task.executableURL = URL(fileURLWithPath: bin)
+        var dollors : [String] = [scriptPath]
+        dollors.append(contentsOf: args)
+        task.arguments = dollors
+        
+        let pipe = Pipe()
+        task.standardOutput = pipe
+        task.standardError = pipe
+            
+        do {
+            try task.run()
+            let data = pipe.fileHandleForReading.readDataToEndOfFile()
+            let output = String(data: data, encoding: .utf8)
+            return (RESULT_OK, output)
+        } catch {
+            return (RESULT_SCRIPT_EXECUTE_ERROR, "\(error)")
         }
+        
     }
     
     
-    func Get_id() -> UUID{
-        return self.id
+    
+    func GetId() -> String{
+        return self.id.uuidString
     }
     
-    func Get_Status() -> WATCHITEM_STATUS {
+    func GetStatus() -> WATCHITEM_STATUS {
         return self.status
+    }
+    
+    func GetMeta() -> MetaData {
+        return self.meta
+    }
+    
+    func UpdateMeta(newMeta: MetaData) -> RESULT_TYPE {
+        self.meta = newMeta
+        return RESULT_OK
     }
     
     func Start() -> RESULT_TYPE{
@@ -128,12 +136,12 @@ class   WatchItem : Watchable{
         }
         
         
-        let meta_res = self.meta.Load()
-        if meta_res != RESULT_OK{
-            return meta_res
-        }
+//        let meta_res = self.meta.Load()
+//        if meta_res != RESULT_OK{
+//            return meta_res
+//        }
         
-        let script_res = self.script_execute(script: self.start_script)
+        let script_res = self.execute_script(bin:"/usr/bin/osascript",script: self.start_script,args: [self.meta.Get_data()])
         if script_res.result != RESULT_OK{
             return script_res.result
         }
@@ -148,13 +156,13 @@ class   WatchItem : Watchable{
             return RESULT_OK
         }
         
-        let script_res = self.self.script_execute(script: self.end_script)
-        
+        let script_res = self.execute_script(bin:"/usr/bin/osascript",script: self.start_script,args: [self.meta.Get_data()])
         
         if script_res.result != RESULT_OK{
             return script_res.result
         }
-        let res = self.meta.Update(new: script_res.output)
+        
+        let res = self.meta.Update(new: script_res.output ?? "")
         if res != RESULT_OK{
             return res
         }

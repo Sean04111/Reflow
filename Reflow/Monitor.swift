@@ -26,6 +26,7 @@ class Monitor_impl : Monitor{
     private var alive : any AtomicFlag
    
     
+    /// heartbeat as second
     init(hearbeat: Int) {
         self.items = [:]
         self.heartbeat = hearbeat
@@ -35,20 +36,23 @@ class Monitor_impl : Monitor{
     private func working_check(){
         for (key, items) in self.items {
             for item in items {
-                if item.Get_Status() != WATCHITEM_STATUS.WORKING_ON{
+                if item.GetStatus() != WATCHITEM_STATUS.WORKING_ON{
+                   
                     //trying to restart item
                     item.Start()
+                    //TODO: delete me
+                    Notify(message: "trying to start item : "+item.GetId())
                 }
             }
         }
     }
     
     private func write () -> RESULT_TYPE{
-        
+        return RESULT_OK
     }
     
     private func load() -> RESULT_TYPE {
-        
+        return RESULT_OK
     }
     
     func AddWatchItem(key:String,item : [Watchable]) -> RESULT_TYPE {
@@ -125,6 +129,7 @@ class Monitor_impl : Monitor{
         self.alive.set(value:  MONITOR_ALIVE)
         
         while self.alive.get() == MONITOR_ALIVE{
+          
             Thread.sleep(forTimeInterval: TimeInterval(self.heartbeat))
             self.working_check()
         }

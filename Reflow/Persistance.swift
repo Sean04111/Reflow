@@ -7,6 +7,11 @@
 
 import Foundation
 
+let PERSISTANT_PREFIX_METADATA = "metadata"
+let PERSISTANT_PREFIX_FLOW = "flow"
+let PERSISTANT_PREFIX_MONITOR = "monitor"
+
+
 protocol Persister {
     func Read(key:String) -> (data:String, result:RESULT_TYPE)
     func Write(key:String,data:String) -> (data:String,result:RESULT_TYPE)
@@ -15,11 +20,11 @@ protocol Persister {
 
 class File_Persistance : Persister{
     func Read(key: String) -> (data: String, result: RESULT_TYPE) {
-        <#code#>
+        return ("fuck", RESULT_OK)
     }
     
     func Write(key: String, data: String) -> (data: String, result: RESULT_TYPE) {
-        <#code#>
+        return (data,RESULT_OK)
     }
     
 

@@ -6,6 +6,7 @@
 //
 
 import os
+import AppKit
 
 //types
 
@@ -29,6 +30,9 @@ let RESULT_ADD_ALREADY_EXIST_FLOW : RESULT_TYPE = "add already exsit flow !"
 
 let RESULT_MONITOR_KILL_DEAD : RESULT_TYPE = "kill dead monitor !"
 
+let RESULT_FLOW_NOT_EXIST_WATCHABLE : RESULT_TYPE = "watchable not exist !"
+let RESULT_FLOW_WORK_CHECK_WIRED : RESULT_TYPE = "flow work check wired !"
+
 
 enum WATCHITEM_STATUS {
     case WORKING_ON
@@ -40,6 +44,13 @@ typealias MONITOR_LIVE_STATUS = Int
 let MONITOR_DEAD = 0
 let MONITOR_ALIVE = 1
 
+
+enum FLOW_STATUS {
+    case FLOW_WORKS_FINE
+    case FLOW_STOPPED
+    case FLOW_WORKS_WIRED_UNKNOWN_WATCHABLE_STATUS
+    case FLOW_WORKS_WIRED_WATCHABLE_STATUS_SPLITED
+}
 
 
 
@@ -58,6 +69,7 @@ final class AtomicValue : AtomicFlag{
     
     init(_ flag: Int) {
         self.value = flag
+        self.locker = os_unfair_lock_s()
     }
     
     func get() -> Int {
@@ -75,6 +87,17 @@ final class AtomicValue : AtomicFlag{
     }
 }
 
+
+func Notify(message:String){
+    let Notification = NSUserNotification()
+    Notification.title = "New message"
+    Notification.informativeText = message
+    Notification.soundName = NSUserNotificationDefaultSoundName
+    
+    
+    let center = NSUserNotificationCenter.default
+    center.deliver(Notification)
+}
 
 
 
