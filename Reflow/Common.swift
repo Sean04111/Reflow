@@ -33,6 +33,9 @@ let RESULT_MONITOR_KILL_DEAD : RESULT_TYPE = "kill dead monitor !"
 let RESULT_FLOW_NOT_EXIST_WATCHABLE : RESULT_TYPE = "watchable not exist !"
 let RESULT_FLOW_WORK_CHECK_WIRED : RESULT_TYPE = "flow work check wired !"
 
+let RESULT_PERSISTANCE_FILE_NOT_EXIST : RESULT_TYPE = "file for persistance not exist !"
+let RESULT_PERSISTANCE_FILE_NOT_READABLE:RESULT_TYPE = "file for persistance not readable !"
+let RESULT_PERSISTANCE_FILE_NOT_WRITABLE:RESULT_TYPE = "file for persistance not writable !"
 
 enum WATCHITEM_STATUS {
     case WORKING_ON

@@ -28,4 +28,10 @@ import Foundation
     #expect(item.GetMeta().Get_data() == "fuck you")
     
     #expect(item.Start() == RESULT_OK)
+    
+    #expect(item.GetStatus()==WATCHITEM_STATUS.WORKING_ON)
+    
+    #expect(item.End()==RESULT_OK)
+    
+    #expect(item.GetStatus()==WATCHITEM_STATUS.UNSTARTED)
 }

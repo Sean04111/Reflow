@@ -16,7 +16,7 @@ class MetaData {
     private var key : String
     private var version: MetaVersion
     
-    private var persister : any Persister = File_Persistance()
+    private var persister : any Persister = File_Persistance("")
   
     init(data: String, key: String) {
         self.data = data
@@ -28,7 +28,7 @@ class MetaData {
    
     
     private func write () -> RESULT_TYPE{
-        let res = self.persister.Write(key: self.key, data: self.data)
+        let res = self.persister.Append(key: self.key, data: self.data)
         return res.result
     }
     
