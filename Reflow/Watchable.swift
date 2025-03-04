@@ -55,6 +55,7 @@ class MetaData {
     }
 }
 
+// Application
 protocol Watchable {
     func GetId()-> String
     func GetStatus() -> WATCHITEM_STATUS

@@ -29,6 +29,23 @@
 		14EDFEEC2D7036830080B212 /* ReflowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ReflowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		1436969C2D76F2AD004AC748 /* Exceptions for "ReflowTests" folder in "Reflow" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				data.json,
+			);
+			target = 14EDFED02D7036820080B212 /* Reflow */;
+		};
+		1436969D2D76F2AD004AC748 /* Exceptions for "ReflowTests" folder in "ReflowTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				data.json,
+			);
+			target = 14EDFEE12D7036830080B212 /* ReflowTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		14EDFED32D7036820080B212 /* Reflow */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
@@ -37,6 +54,10 @@
 		};
 		14EDFEE52D7036830080B212 /* ReflowTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				1436969C2D76F2AD004AC748 /* Exceptions for "ReflowTests" folder in "Reflow" target */,
+				1436969D2D76F2AD004AC748 /* Exceptions for "ReflowTests" folder in "ReflowTests" target */,
+			);
 			path = ReflowTests;
 			sourceTree = "<group>";
 		};
